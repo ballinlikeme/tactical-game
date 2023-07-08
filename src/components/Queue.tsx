@@ -3,32 +3,40 @@ import { Cell, Player } from "../models"
 import { BaseUnit } from "../models/base";
 
 interface QueueProps {
-    cells: Cell[][];
+    queue: Cell[] | null;
     setCurrentPlater: Dispatch<SetStateAction<Player | null>>;
     setCurrentUnit: Dispatch<SetStateAction<BaseUnit | null>>;
-    swapPlayer: () => void;
+    setSelectedCell: Dispatch<SetStateAction<Cell | null>>;
+    setTargetCell: Dispatch<SetStateAction<Cell | null>>;
 }
 
-export default function Queue({ cells, setCurrentUnit }: QueueProps) {
+export default function Queue({ queue, setCurrentUnit, setSelectedCell, setTargetCell }: QueueProps) {
 
-    const queue = cells.reduce((prev, curr) => prev.concat(curr)).sort((a, b) => b.unit!.initiative - a.unit!.initiative);
 
     function defineCurrentUnit() {
-        const currentUnit = queue[0].unit;
-        setCurrentUnit(currentUnit);
+        if (queue && queue.length) {
+            const currentUnit = queue![0].unit;
+            setCurrentUnit(currentUnit);
+        }
+    }
+
+    function handleClick(cell: Cell) {
+        setSelectedCell(cell);
+        setTargetCell(null);
     }
 
     useEffect(() => {
         defineCurrentUnit();
     }, [queue])
 
+
     return (
         <div className="queue">
-            {queue.map(cell => (
-                <div className={[
+            {queue && queue.map(cell => (
+                <div onClick={() => setSelectedCell(cell)} key={cell.id} className={[
                     "queue__element",
                 ].join(' ')}>
-                    <img className={cell.unit?.playerId === 0 ? 'red-outline' : 'green-outline'} src={cell.unit?.image} alt={cell.unit?.name} />
+                    <img className={cell.unit?.playerId === 0 ? 'green-outline' : 'red-outline'} src={cell.unit?.image} alt={cell.unit?.name} />
                 </div>
             ))}
         </div>

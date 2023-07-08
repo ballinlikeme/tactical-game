@@ -12,6 +12,8 @@ export class BaseUnit {
     initiative: number;
     healthPoints: number;
     isDead: boolean;
+    isDefending: boolean = false;
+    isParalyzed: boolean = false;
     cell: Cell;
     playerId: number;
     image: string = '';
@@ -32,7 +34,7 @@ export class BaseUnit {
     }
 
     canInteractWith(target: Cell): boolean {
-        if (this.type !== UnitType.HEALER) {
+        if (this.type !== UnitType.HEALER && !target.unit?.isDead) {
             if (target.unit?.playerId === this.playerId) {
                 return false;
             }

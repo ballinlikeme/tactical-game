@@ -20,7 +20,8 @@
 }
 
 .queue__element {
-  /* flex: 0 0 calc(1000px / 12); */
+  margin: 0 auto;
+  flex: 0 0 calc(1000px / 12);
 }
 
 .queue__element img {
@@ -52,7 +53,6 @@
   border: 1px solid black;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   position: relative;
@@ -61,6 +61,13 @@
 .cell-image {
   width: 300px;
   height: 100px;
+
+}
+
+.cell-unit {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
 }
 
 .cell-image img {
@@ -88,4 +95,31 @@
 
 .availiable_unit {
   background-color: red;
+}
+
+.controls {
+  display: flex;
+  max-width: fit-content;
+  margin: 0 auto;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.button {
+  all: unset;
+  padding: 10px 15px;
+  background-color: aquamarine;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: aqua;
+}
+
+.target {
+  background-color: cornflowerblue;
+}
+
+.dead {
+  background-color: grey;
 }

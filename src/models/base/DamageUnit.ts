@@ -16,8 +16,9 @@ export class DamageUnit extends BaseUnit {
     interactWith(target: Cell): void {
         if (target.availiable && target.unit) {
             target.unit.healthPoints = target.unit.healthPoints - this.damage;
-            if (target.unit.healthPoints <= 0) { 
+            if (target.unit.healthPoints <= 0) {
                 target.unit.isDead = true;
+                target.unit.healthPoints = 0;
             }
         }
     }

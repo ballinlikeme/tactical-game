@@ -10,32 +10,34 @@ export class MeleeUnit extends DamageUnit {
         super(props);
     }
 
-    checkInteractableUnitsInLine(line: Cell[], target: Cell, currentCell: Cell): boolean {
-        const aliveUnits = line.filter((cell) => !cell.unit?.isDead);
-        if (aliveUnits.length && aliveUnits.includes(target)) {
-            const currentX = currentCell.x;
-            const nearestEnemy = aliveUnits.filter((cell) => Math.abs(cell.x - currentX) <= 1);
-            if (nearestEnemy.length > 0) {
-                if (nearestEnemy.includes(target)) {
-                    return true;
-                }
-            } else if (aliveUnits.includes(target)) return true;
-        }
+    checkInteractableUnitsInLine(target: Cell, currentCell: Cell, aliveUnits: Cell[]): boolean {
+        const currentX = currentCell.x;
+        const nearestEnemy = aliveUnits.filter((cell) => Math.abs(cell.x - currentX) <= 1);
+        if (nearestEnemy.length > 0) {
+            if (nearestEnemy.includes(target)) {
+                return true;
+            }
+        } else if (aliveUnits.includes(target)) return true;
         return false;
     }
 
     canInteractWith(target: Cell): boolean {
         if (super.canInteractWith(target)) {
             const currentY = this.cell.y;
-            
+
             if (this.playerId === 0) {
                 for (let i = currentY - 1; i >= 0; i--) {
                     const line = this.cell.board.cells[i];
                     const unitInLine = line[0].unit;
                     const canInteract = this.playerId !== unitInLine?.playerId;
                     if (canInteract) {
-                        const isInteractable = this.checkInteractableUnitsInLine(line, target, this.cell);
-                        return isInteractable;
+                        const aliveUnits = line.filter((cell) => !cell.unit?.isDead);
+                        if (aliveUnits.length) {
+                            const isInteractable = this.checkInteractableUnitsInLine(target, this.cell, aliveUnits);
+                            return isInteractable;
+                        } else {
+                            continue
+                        }
                     }
                 }
             }
@@ -45,8 +47,13 @@ export class MeleeUnit extends DamageUnit {
                     const unitInLine = line[0].unit;
                     const canInteract = this.playerId !== unitInLine?.playerId;
                     if (canInteract) {
-                        const isInteractable = this.checkInteractableUnitsInLine(line, target, this.cell);
-                        return isInteractable;
+                        const aliveUnits = line.filter((cell) => !cell.unit?.isDead);
+                        if (aliveUnits.length) {
+                            const isInteractable = this.checkInteractableUnitsInLine(target, this.cell, aliveUnits);
+                            return isInteractable;
+                        } else {
+                            continue;
+                        }
                     }
                 }
             }
