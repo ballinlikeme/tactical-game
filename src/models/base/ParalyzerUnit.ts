@@ -1,13 +1,10 @@
-import { BaseUnit, BaseUnitProps } from "."
-import { Cell } from "..";
+import { BaseUnit, BaseUnitProps } from "./BaseUnit";
+import { Cell } from "../index";
 import { UnitType } from "../enums";
 
-export interface ParalyzerUnitProps extends Omit<BaseUnitProps, 'type'> {
-
-}
+export interface ParalyzerUnitProps extends Omit<BaseUnitProps, "type"> {}
 
 export class ParalyzerUnit extends BaseUnit {
-
     type: UnitType = UnitType.PARALYZER;
 
     constructor(props: ParalyzerUnitProps) {
@@ -15,6 +12,12 @@ export class ParalyzerUnit extends BaseUnit {
     }
 
     interactWith(target: Cell): void {
-        target.unit!.isParalyzed = true;
+        if (target.unit) {
+            if (this.cell.board.queue.currentQueue.includes(target)) {
+                target.unit.isParalyzed = true;
+                return;
+            }
+            this.cell.board.queue.addToParalyzedInNextRound(target);
+        }
     }
 }

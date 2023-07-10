@@ -1,3 +1,4 @@
+import { Queue } from "./Queue";
 import { Cell } from "./Cell";
 import { Archimage } from "./units/Archimage";
 import { Bandit } from "./units/Bandit";
@@ -9,7 +10,7 @@ import { SkeletonMage } from "./units/SkeletonMage";
 
 export class Board {
     cells: Cell[][] = [];
-
+    queue: Queue = new Queue(this.cells);
 
     public initCells(): void {
         for (let i = 0; i < 4; i++) {
@@ -32,13 +33,12 @@ export class Board {
         new Skeleton({ cell: this.getCell(0, 1), playerId: 1 });
         new Skeleton({ cell: this.getCell(1, 1), playerId: 1 });
         new Monk({ cell: this.getCell(2, 1), playerId: 1 });
-        new Skeleton({ cell: this.getCell(0, 2), playerId: 0 })
+        new Skeleton({ cell: this.getCell(0, 2), playerId: 0 });
         new Monk({ cell: this.getCell(1, 2), playerId: 0 });
         new Bandit({ cell: this.getCell(2, 2), playerId: 0 });
         new Archimage({ cell: this.getCell(0, 3), playerId: 0 });
         new ElfArcher({ cell: this.getCell(1, 3), playerId: 0 });
         new Archimage({ cell: this.getCell(2, 3), playerId: 0 });
-
     }
 
     public hightlightCells(selectedCell: Cell | null): void {
@@ -47,15 +47,17 @@ export class Board {
             if (row) {
                 for (let j = 0; j < row.length; j++) {
                     const target = row[j];
-                    target.availiable = !!selectedCell?.unit?.canInteractWith(target)
+                    target.availiable =
+                        !!selectedCell?.unit?.canInteractWith(target);
                 }
             }
         }
     }
 
     public getCopyBoard(): Board {
-        const newBoard = new Board()
+        const newBoard = new Board();
         newBoard.cells = this.cells;
+        newBoard.queue = this.queue;
         return newBoard;
     }
 }

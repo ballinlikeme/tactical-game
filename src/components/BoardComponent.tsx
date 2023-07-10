@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, Fragment, useState, useEffect } from "react"
-import { Board, Cell, Player } from "../models";
+import { Dispatch, SetStateAction, Fragment, useState, useEffect } from "react";
+import { Board, Cell, Player, Queue } from "../models";
 import { BaseUnit } from "../models/base";
 import CellComponent from "./CellComponent";
-import Queue from "./Queue";
+import QueueComponent from "./QueueComponent";
 import Controls from "./Controls";
 
 interface BoardProps {
@@ -11,12 +11,10 @@ interface BoardProps {
 }
 
 export default function BoardComponent({ board, setBoard }: BoardProps) {
-
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
     const [targetCell, setTargetCell] = useState<Cell | null>(null);
     const [currentUnit, setCurrentUnit] = useState<BaseUnit | null>(null);
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
-    const [queue, setQueue] = useState<Cell[] | null>(null);
     const [round, setRound] = useState<number>(1);
 
     function selectCell(cell: Cell): void {
@@ -27,7 +25,7 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
 
         if (selectedCell?.id === cell.id) {
             setSelectedCell(null);
-            setTargetCell(null)
+            setTargetCell(null);
             return;
         }
 
@@ -40,66 +38,63 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
     }
 
     function updateBoard(): void {
-        const newBoard = board.getCopyBoard()
-        setBoard(newBoard)
+        const newBoard = board.getCopyBoard();
+        setBoard(newBoard);
     }
 
     useEffect(() => {
+        setTargetCell(null);
         hightlightCells();
-    }, [selectedCell])
+    }, [selectedCell]);
 
     useEffect(() => {
-        setQueue(board.cells
-            .reduce((prev, curr) => prev.concat(curr))
-            .sort((a, b) => b.unit!.initiative - a.unit!.initiative)
-        )
-    }, [])
-
-    useEffect(() => {
-        if (queue?.length === 0) {
-            setRound(prev => prev++);
-            setQueue(board.cells
-                .reduce((prev, curr) => prev.concat(curr))
-                .filter(cell => !cell.unit?.isDead)
-                .sort((a, b) => a.unit!.initiative - b.unit!.initiative)
-            )
+        if (board.queue.currentQueue.length === 0) {
+            board.queue.reset();
+            setRound(round + 1);
         }
-    }, [queue])
+    }, [board.queue.currentQueue.length, board.queue, round]);
 
     return (
         <>
             <h1>Round: {round}</h1>
-            <Queue
-                queue={queue}
+            <QueueComponent
+                queue={board.queue.currentQueue}
                 setCurrentPlater={setCurrentPlayer}
                 setCurrentUnit={setCurrentUnit}
                 setSelectedCell={setSelectedCell}
-                setTargetCell={setTargetCell}
             />
             <div className="board">
-                {board.cells.map((row, index) =>
+                {board.cells.map((row, index) => (
                     <Fragment key={index}>
-                        {row.map((cell) =>
+                        {row.map((cell) => (
                             <CellComponent
                                 key={cell.id}
                                 selectCell={selectCell}
-                                isSelected={selectedCell?.x === cell.x && selectedCell?.y === cell.y}
+                                isSelected={
+                                    selectedCell?.x === cell.x &&
+                                    selectedCell?.y === cell.y
+                                }
                                 cell={cell}
                                 isTarget={targetCell?.id === cell.id}
+                                isParalyzed={
+                                    board.queue.paralyzedInNextRound.includes(
+                                        cell
+                                    ) || cell.unit!.isParalyzed
+                                }
                             />
-                        )}
+                        ))}
                     </Fragment>
-                )}
+                ))}
             </div>
             <Controls
+                queue={board.queue}
                 setSelectedCell={setSelectedCell}
                 setTargetCell={setTargetCell}
                 currentUnit={currentUnit}
                 selectedCell={selectedCell}
-                setQueue={setQueue}
                 targetCell={targetCell}
                 updateBoard={updateBoard}
             />
         </>
-    )
+    );
 }

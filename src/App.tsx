@@ -1,38 +1,33 @@
 import { useState, useEffect } from "react";
-import { Board } from "./models"
+import { Board, Queue } from "./models";
 import BoardComponent from "./components/BoardComponent";
 import Container from "./components/Container";
-import './App.css'
+import "./App.css";
 
 function App() {
+    const [board, setBoard] = useState<Board | null>(null);
 
-  const [board, setBoard] = useState<Board | null>(null);
+    useEffect(() => {
+        restart();
+    }, []);
 
-  useEffect(() => {
-    restart();
-  }, [])
+    function restart(): void {
+        const newBoard = new Board();
+        newBoard.initCells();
+        newBoard.setUpUnits();
+        newBoard.queue.reset();
+        setBoard(newBoard);
+    }
 
-  function restart(): void {
-    const newBoard = new Board();
-    newBoard.initCells()
-    newBoard.setUpUnits();
-    console.log(newBoard.cells)
-    setBoard(newBoard)
-  }
-
-
-  return (
-    <Container>
-      {board && (
-        <>
-          <BoardComponent
-            setBoard={setBoard}
-            board={board}
-          />
-        </>
-      )}
-    </Container>
-  )
+    return (
+        <Container>
+            {board && (
+                <>
+                    <BoardComponent setBoard={setBoard} board={board} />
+                </>
+            )}
+        </Container>
+    );
 }
 
-export default App
+export default App;
