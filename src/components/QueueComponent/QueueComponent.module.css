@@ -6,17 +6,17 @@
 }
 
 .element {
-    flex: 0 0 calc(1000 / 12);
+    flex: 0 0 calc(1000px / 12);
 }
 
 .image {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 .red {
-	border: 3px solid red;
+    border: 3px solid red;
 }
 
 .green {
-	border: 3px solid green;
+    border: 3px solid green;
 }

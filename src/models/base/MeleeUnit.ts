@@ -4,15 +4,21 @@ import type { DamageUnitProps } from "./DamageUnit";
 import { Cell } from "../Cell";
 
 export class MeleeUnit extends DamageUnit {
-    type: UnitType = UnitType.MELEE
+    type: UnitType = UnitType.MELEE;
 
     constructor(props: DamageUnitProps) {
         super(props);
     }
 
-    checkInteractableUnitsInLine(target: Cell, currentCell: Cell, aliveUnits: Cell[]): boolean {
+    checkInteractableUnitsInLine(
+        target: Cell,
+        currentCell: Cell,
+        aliveUnits: Cell[]
+    ): boolean {
         const currentX = currentCell.x;
-        const nearestEnemy = aliveUnits.filter((cell) => Math.abs(cell.x - currentX) <= 1);
+        const nearestEnemy = aliveUnits.filter(
+            (cell) => Math.abs(cell.x - currentX) <= 1
+        );
         if (nearestEnemy.length > 0) {
             if (nearestEnemy.includes(target)) {
                 return true;
@@ -31,13 +37,26 @@ export class MeleeUnit extends DamageUnit {
                     const unitInLine = line[0].unit;
                     const canInteract = this.playerId !== unitInLine?.playerId;
                     if (canInteract) {
-                        const aliveUnits = line.filter((cell) => !cell.unit?.isDead);
+                        const aliveUnits = line.filter(
+                            (cell) => !cell.unit?.isDead
+                        );
                         if (aliveUnits.length) {
-                            const isInteractable = this.checkInteractableUnitsInLine(target, this.cell, aliveUnits);
+                            const isInteractable =
+                                this.checkInteractableUnitsInLine(
+                                    target,
+                                    this.cell,
+                                    aliveUnits
+                                );
                             return isInteractable;
                         } else {
-                            continue
+                            continue;
                         }
+                    } else {
+                        const aliveUnits = line.filter(
+                            (cell) => !cell.unit?.isDead
+                        );
+                        if (aliveUnits.length) return false;
+                        continue;
                     }
                 }
             }
@@ -47,13 +66,26 @@ export class MeleeUnit extends DamageUnit {
                     const unitInLine = line[0].unit;
                     const canInteract = this.playerId !== unitInLine?.playerId;
                     if (canInteract) {
-                        const aliveUnits = line.filter((cell) => !cell.unit?.isDead);
+                        const aliveUnits = line.filter(
+                            (cell) => !cell.unit?.isDead
+                        );
                         if (aliveUnits.length) {
-                            const isInteractable = this.checkInteractableUnitsInLine(target, this.cell, aliveUnits);
+                            const isInteractable =
+                                this.checkInteractableUnitsInLine(
+                                    target,
+                                    this.cell,
+                                    aliveUnits
+                                );
                             return isInteractable;
                         } else {
                             continue;
                         }
+                    } else {
+                        const aliveUnits = line.filter(
+                            (cell) => !cell.unit?.isDead
+                        );
+                        if (aliveUnits.length) return false;
+                        continue;
                     }
                 }
             }

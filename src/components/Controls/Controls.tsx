@@ -22,7 +22,12 @@ export default function Controls({
     setTargetCell,
     queue,
 }: ControlsProps) {
-    function attack() {
+    function resetCells(): void {
+        setSelectedCell(null);
+        setTargetCell(null);
+    }
+
+    function attack(): void {
         if (
             selectedCell &&
             targetCell &&
@@ -31,13 +36,17 @@ export default function Controls({
             selectedCell.unit?.interactWith(targetCell);
             updateBoard();
             queue.updateQueue();
-            setSelectedCell(null);
-            setTargetCell(null);
+            resetCells();
         }
     }
 
     function defend() {
         console.log("defend");
+    }
+
+    function skip() {
+        queue.updateQueue();
+        resetCells();
     }
 
     return (
@@ -46,6 +55,9 @@ export default function Controls({
                 ATTACK
             </button>
             <button className={styles.button}>DEFEND</button>
+            <button className={styles.button} onClick={() => skip()}>
+                SKIP
+            </button>
         </div>
     );
 }

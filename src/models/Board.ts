@@ -7,6 +7,25 @@ import { Monk } from "./units/Monk";
 import { Sirena } from "./units/Sirena";
 import { Skeleton } from "./units/Skeleton";
 import { SkeletonMage } from "./units/SkeletonMage";
+import { Bishop } from "./units/Bishop";
+import { Centaur } from "./units/Centaur";
+
+const units = [
+    Archimage,
+    Bandit,
+    ElfArcher,
+    Sirena,
+    Monk,
+    Skeleton,
+    SkeletonMage,
+    Bishop,
+    Centaur,
+];
+
+function arrayRandElement<T>(arr: T[]): T {
+    const rand = Math.floor(Math.random() * arr.length);
+    return arr[rand];
+}
 
 export class Board {
     cells: Cell[][] = [];
@@ -27,18 +46,13 @@ export class Board {
     }
 
     public setUpUnits(): void {
-        new Archimage({ cell: this.getCell(0, 0), playerId: 1 });
-        new SkeletonMage({ cell: this.getCell(1, 0), playerId: 1 });
-        new Sirena({ cell: this.getCell(2, 0), playerId: 1 });
-        new Skeleton({ cell: this.getCell(0, 1), playerId: 1 });
-        new Skeleton({ cell: this.getCell(1, 1), playerId: 1 });
-        new Monk({ cell: this.getCell(2, 1), playerId: 1 });
-        new Skeleton({ cell: this.getCell(0, 2), playerId: 0 });
-        new Monk({ cell: this.getCell(1, 2), playerId: 0 });
-        new Bandit({ cell: this.getCell(2, 2), playerId: 0 });
-        new Archimage({ cell: this.getCell(0, 3), playerId: 0 });
-        new ElfArcher({ cell: this.getCell(1, 3), playerId: 0 });
-        new Archimage({ cell: this.getCell(2, 3), playerId: 0 });
+        this.cells
+            .reduce((prev, curr) => prev.concat(curr))
+            .forEach((cell) => {
+                const playerId = cell.y <= 1 ? 1 : 0;
+                const Unit = arrayRandElement<typeof Sirena>(units);
+                new Unit({ cell, playerId });
+            });
     }
 
     public hightlightCells(selectedCell: Cell | null): void {
