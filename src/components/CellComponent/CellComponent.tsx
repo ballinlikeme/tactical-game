@@ -1,5 +1,5 @@
-import { Cell } from "../models";
-import { DamageUnit } from "../models/base";
+import { Cell } from "../../models";
+import styles from "./CellComponent.module.css";
 
 interface CellProps {
     cell: Cell;
@@ -20,18 +20,22 @@ export default function CellComponent({
         <div
             onClick={() => selectCell(cell)}
             className={[
-                isParalyzed && "paralyzed",
-                "cell",
-                isSelected && "selected",
-                cell.availiable && cell.unit && "availiable_unit",
-                isTarget && "target",
-                cell.unit?.isDead && "dead",
+                isParalyzed ? styles.paraluzed : "",
+                styles.cell,
+                isSelected ? styles.selected : "",
+                cell.availiable ? styles.availiable : "",
+                isTarget ? styles.target : "",
+                cell.unit?.isDead ? styles.dead : "",
             ].join(" ")}
         >
-            <div className="cell-image">
-                <img src={cell.unit?.image} alt={cell.unit?.name} />
+            <div className={styles.imageContainer}>
+                <img
+                    className={styles.image}
+                    src={cell.unit?.image}
+                    alt={cell.unit?.name}
+                />
             </div>
-            <div className="cell-unit">
+            <div className={styles.unit}>
                 <div>
                     <div>
                         {cell.unit?.healthPoints}/{cell.unit?.maxHealthPoints}

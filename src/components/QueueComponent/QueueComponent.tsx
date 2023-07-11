@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { Cell, Player } from "../models";
-import { BaseUnit } from "../models/base";
+import { Cell, Player } from "../../models";
+import { BaseUnit } from "../../models/base";
+import styles from "./QueueComponent.module.css";
 
 interface QueueProps {
     queue: Cell[] | null;
@@ -26,20 +27,21 @@ export default function QueueComponent({
     }, [queue]);
 
     return (
-        <div className="queue">
+        <div className={styles.queue}>
             {queue &&
                 queue.map((cell) => (
                     <div
                         onClick={() => setSelectedCell(cell)}
                         key={cell.id}
-                        className={["queue__element"].join(" ")}
+                        className={styles.element}
                     >
                         <img
-                            className={
+                            className={[
                                 cell.unit?.playerId === 0
-                                    ? "green-outline"
-                                    : "red-outline"
-                            }
+                                    ? styles.green
+                                    : styles.red,
+                                styles.image,
+                            ].join(" ")}
                             src={cell.unit?.image}
                             alt={cell.unit?.name}
                         />

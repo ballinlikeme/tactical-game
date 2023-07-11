@@ -1,0 +1,22 @@
+.queue {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    max-width: 1000px;
+}
+
+.element {
+    flex: 0 0 calc(1000 / 12);
+}
+
+.image {
+	max-width: 100%;
+}
+
+.red {
+	border: 3px solid red;
+}
+
+.green {
+	border: 3px solid green;
+}

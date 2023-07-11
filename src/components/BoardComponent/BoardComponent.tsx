@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, Fragment, useState, useEffect } from "react";
-import { Board, Cell, Player, Queue } from "../models";
-import { BaseUnit } from "../models/base";
-import CellComponent from "./CellComponent";
-import QueueComponent from "./QueueComponent";
-import Controls from "./Controls";
+import { Board, Cell, Player, Queue } from "../../models";
+import { BaseUnit } from "../../models/base";
+import CellComponent from "../CellComponent/CellComponent";
+import QueueComponent from "../QueueComponent/QueueComponent";
+import Controls from "../Controls/Controls";
+import styles from "./BoardComponent.module.css";
 
 interface BoardProps {
     board: Board;
@@ -63,7 +64,7 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
                 setCurrentUnit={setCurrentUnit}
                 setSelectedCell={setSelectedCell}
             />
-            <div className="board">
+            <div className={styles.board}>
                 {board.cells.map((row, index) => (
                     <Fragment key={index}>
                         {row.map((cell) => (

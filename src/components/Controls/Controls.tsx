@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import { Cell, Queue } from "../models";
-import { BaseUnit } from "../models/base";
+import { Cell, Queue } from "../../models";
+import { BaseUnit } from "../../models/base";
+import styles from "./Controls.module.css";
 
 interface ControlsProps {
     selectedCell: Cell | null;
@@ -40,11 +41,11 @@ export default function Controls({
     }
 
     return (
-        <div className="controls">
-            <button className="button" onClick={() => attack()}>
+        <div className={styles.controls}>
+            <button className={styles.button} onClick={() => attack()}>
                 ATTACK
             </button>
-            <button className="button">DEFEND</button>
+            <button className={styles.button}>DEFEND</button>
         </div>
     );
 }

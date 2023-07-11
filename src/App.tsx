@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Board, Queue } from "./models";
-import BoardComponent from "./components/BoardComponent";
-import Container from "./components/Container";
+import BoardComponent from "./components/BoardComponent/BoardComponent";
+import Container from "./components/Container/Container";
 import "./App.css";
 
 function App() {
@@ -21,11 +21,7 @@ function App() {
 
     return (
         <Container>
-            {board && (
-                <>
-                    <BoardComponent setBoard={setBoard} board={board} />
-                </>
-            )}
+            {board && <BoardComponent setBoard={setBoard} board={board} />}
         </Container>
     );
 }

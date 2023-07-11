@@ -51,36 +51,3 @@ export class Queue {
         this.paralyzedInNextRound.push(target);
     }
 }
-
-// export class Queue {
-//     private _board: Board;
-//     private _paralyzedNextRound: Cell[] = [];
-//     currentQueue: Cell[] = [];
-
-//     constructor(board: Board) {
-//         this._board = board;
-//     }
-
-//     reset(): void {
-//         this._paralyzedNextRound = [];
-//         this.currentQueue = this._board.cells
-//             .reduce((prev, curr) => prev.concat(curr))
-//             .filter((cell) => !this._paralyzedNextRound.includes(cell));
-//         this.formatQueue();
-//     }
-
-//     formatQueue(): void {
-//         this.currentQueue = this.currentQueue
-//             .filter((cell) => !cell.unit?.isDead && !cell.unit?.isParalyzed)
-//             .sort((a, b) => b.unit!.initiative - a.unit!.initiative);
-//     }
-
-//     updateQueue(): void {
-//         this.currentQueue = this.currentQueue.slice(1);
-//         this.formatQueue();
-//     }
-
-//     addToParalyzedNextRound(cell: Cell): void {
-//         this._paralyzedNextRound.push(cell);
-//     }
-// }
