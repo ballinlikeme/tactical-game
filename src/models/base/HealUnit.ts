@@ -2,8 +2,7 @@ import { BaseUnit, BaseUnitProps } from ".";
 import { Cell } from "..";
 import { HealType, UnitType } from "../enums";
 
-export interface HealUnitProps extends Omit<BaseUnitProps, 'type'> {
-}
+export interface HealUnitProps extends Omit<BaseUnitProps, "type"> {}
 
 export class HealUnit extends BaseUnit {
     type: UnitType = UnitType.HEALER;
@@ -18,7 +17,10 @@ export class HealUnit extends BaseUnit {
 
     canInteractWith(target: Cell): boolean {
         if (super.canInteractWith(target)) {
-            if (this.playerId === target.unit?.playerId && this.cell.id !== target.id) {
+            if (
+                this.playerId === target.unit?.playerId &&
+                this.cell.id !== target.id
+            ) {
                 return true;
             }
         }
@@ -28,20 +30,15 @@ export class HealUnit extends BaseUnit {
     interactWith(target: Cell): void {
         if (this.healType === HealType.SINGLE) {
             if (target.availiable && target.unit && !target.unit.isDead) {
-                if (target.unit.healthPoints + this.heal > target.unit.maxHealthPoints) {
-                    target.unit.healthPoints = target.unit.maxHealthPoints
+                if (
+                    target.unit.healthPoints + this.heal >
+                    target.unit.maxHealthPoints
+                ) {
+                    target.unit.healthPoints = target.unit.maxHealthPoints;
                 } else {
                     target.unit.healthPoints += this.heal;
                 }
             }
-        }
-        if (this.healType === HealType.MASS) {
-            this.cell.board.cells.forEach((row) => {
-                const isAllyRow = row[0].unit?.playerId === this.playerId
-                if (isAllyRow) {
-                    row.forEach(cell => cell.unit!.healthPoints += this.heal)
-                }
-            })
         }
     }
 }

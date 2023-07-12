@@ -1,11 +1,10 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { Cell, Player } from "../../models";
+import { Cell } from "../../models";
 import { BaseUnit } from "../../models/base";
 import styles from "./QueueComponent.module.css";
 
 interface QueueProps {
     queue: Cell[] | null;
-    setCurrentPlater: Dispatch<SetStateAction<Player | null>>;
     setCurrentUnit: Dispatch<SetStateAction<BaseUnit | null>>;
     setSelectedCell: Dispatch<SetStateAction<Cell | null>>;
 }
@@ -15,16 +14,18 @@ export default function QueueComponent({
     setCurrentUnit,
     setSelectedCell,
 }: QueueProps) {
-    function defineCurrentUnit() {
-        if (queue && queue.length) {
-            const currentUnit = queue![0].unit;
-            setCurrentUnit(currentUnit);
-        }
-    }
-
     useEffect(() => {
+        function defineCurrentUnit() {
+            if (queue && queue.length) {
+                if (queue[0]) {
+                    const currentUnit = queue[0].unit;
+                    setCurrentUnit(currentUnit);
+                }
+            }
+        }
+
         defineCurrentUnit();
-    }, [queue]);
+    }, [queue, setCurrentUnit]);
 
     return (
         <div className={styles.queue}>

@@ -20,7 +20,7 @@ export default function CellComponent({
         <div
             onClick={() => selectCell(cell)}
             className={[
-                isParalyzed ? styles.paraluzed : "",
+                isParalyzed ? styles.paralyzed : "",
                 styles.cell,
                 isSelected ? styles.selected : "",
                 cell.availiable ? styles.availiable : "",

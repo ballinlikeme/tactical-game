@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, Fragment, useState, useEffect } from "react";
-import { Board, Cell, Player, Queue } from "../../models";
+import { Board, Cell } from "../../models";
 import { BaseUnit } from "../../models/base";
 import CellComponent from "../CellComponent/CellComponent";
 import QueueComponent from "../QueueComponent/QueueComponent";
 import Controls from "../Controls/Controls";
 import styles from "./BoardComponent.module.css";
+import { MassHealUnit } from "../../models/base/MassHealUnit";
 
 interface BoardProps {
     board: Board;
@@ -15,11 +16,10 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
     const [targetCell, setTargetCell] = useState<Cell | null>(null);
     const [currentUnit, setCurrentUnit] = useState<BaseUnit | null>(null);
-    const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
     const [round, setRound] = useState<number>(1);
 
     function selectCell(cell: Cell): void {
-        if (selectedCell && cell.availiable) {
+        if (selectedCell && cell.availiable && cell.unit) {
             setTargetCell(cell);
             return;
         }
@@ -33,14 +33,21 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
         setSelectedCell(cell);
     }
 
-    function hightlightCells(): void {
-        board.hightlightCells(selectedCell);
-        updateBoard();
+    function isMassHealer(unit: BaseUnit): unit is MassHealUnit {
+        if (unit instanceof MassHealUnit) {
+            return true;
+        }
+        return false;
     }
 
     function updateBoard(): void {
         const newBoard = board.getCopyBoard();
         setBoard(newBoard);
+    }
+
+    function hightlightCells(): void {
+        board.hightlightCells(selectedCell);
+        updateBoard();
     }
 
     useEffect(() => {
@@ -60,7 +67,6 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
             <h1>Round: {round}</h1>
             <QueueComponent
                 queue={board.queue.currentQueue}
-                setCurrentPlater={setCurrentPlayer}
                 setCurrentUnit={setCurrentUnit}
                 setSelectedCell={setSelectedCell}
             />
@@ -91,6 +97,7 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
                 queue={board.queue}
                 setSelectedCell={setSelectedCell}
                 setTargetCell={setTargetCell}
+                isMassHealer={isMassHealer}
                 currentUnit={currentUnit}
                 selectedCell={selectedCell}
                 targetCell={targetCell}
