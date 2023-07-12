@@ -70,13 +70,22 @@ export default function Controls({
 
     return (
         <div className={styles.controls}>
-            <button className={styles.button} onClick={() => attack()}>
+            <button
+                className={`${styles.button} ${styles.buttonRed}`}
+                onClick={() => attack()}
+            >
                 ATTACK
             </button>
-            <button className={styles.button} onClick={() => defend()}>
+            <button
+                className={`${styles.button} ${styles.buttonGreen}`}
+                onClick={() => defend()}
+            >
                 DEFEND
             </button>
-            <button className={styles.button} onClick={() => skip()}>
+            <button
+                className={`${styles.button} ${styles.buttonGray}`}
+                onClick={() => skip()}
+            >
                 SKIP
             </button>
         </div>
