@@ -3,7 +3,6 @@ import {
     BaseUnit,
     DamageUnit,
     HealUnit,
-    ParalyzerUnit,
 } from "../../models/base";
 import styles from "./CellComponent.module.css";
 
@@ -124,48 +123,5 @@ export default function CellComponent({
         );
     }
 
-    return (
-        <div className="cell"></div>
-
-        // <div
-        //     onClick={() => selectCell(cell)}
-        //     className={[
-        //         isParalyzed ? styles.paralyzed : "",
-        //         cell.unit?.isDefending ? styles.defend : "",
-        //         styles.cell,
-        //         isSelected ? styles.selected : "",
-        //         cell.availiable ? styles.availiable : "",
-        //         isTarget ? styles.target : "",
-        //         cell.unit?.isDead ? styles.dead : "",
-        //     ].join(" ")}
-        // >
-        //     <div className={styles.imageContainer}>
-        //         <img
-        //             className={styles.image}
-        //             src={cell.unit?.image}
-        //             alt={cell.unit?.name}
-        //         />
-        //         {cell.unit && (
-        //             <div
-        //                 className={styles.level}
-        //                 style={{
-        //                     height: `${
-        //                         100 -
-        //                         (cell.unit.healthPoints /
-        //                             cell.unit.maxHealthPoints) *
-        //                             100
-        //                     }%`,
-        //                 }}
-        //             ></div>
-        //         )}
-        //     </div>
-        //     <div className={styles.unit}>
-        //         <div>
-        //             <div>
-        //                 {cell.unit?.healthPoints}/{cell.unit?.maxHealthPoints}
-        //             </div>
-        //         </div>
-        //     </div>
-        // </div>
-    );
+    return <div className="cell"></div>;
 }
