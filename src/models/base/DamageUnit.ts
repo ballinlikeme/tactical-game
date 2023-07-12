@@ -1,9 +1,8 @@
 import { BaseUnit, BaseUnitProps } from "./BaseUnit";
 import { Cell } from "../Cell";
 
-export interface DamageUnitProps extends Omit<BaseUnitProps, 'type' | 'damage'> {
-}
-
+export interface DamageUnitProps
+    extends Omit<BaseUnitProps, "type" | "damage"> {}
 
 export class DamageUnit extends BaseUnit {
     damage: number;
@@ -15,7 +14,9 @@ export class DamageUnit extends BaseUnit {
 
     interactWith(target: Cell): void {
         if (target.availiable && target.unit) {
-            target.unit.healthPoints = target.unit.healthPoints - this.damage;
+            target.unit.healthPoints = target.unit.isDefending
+                ? Math.floor(target.unit.healthPoints - this.damage / 2)
+                : target.unit.healthPoints - this.damage;
             if (target.unit.healthPoints <= 0) {
                 target.unit.isDead = true;
                 target.unit.healthPoints = 0;

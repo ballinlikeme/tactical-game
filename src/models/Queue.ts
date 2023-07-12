@@ -14,6 +14,7 @@ export class Queue {
         allCells.forEach((cell) => {
             if (cell.unit) {
                 cell.unit.isParalyzed = false;
+                cell.unit.isDefending = false;
             }
         });
         this.paralyzedInNextRound.forEach((cell) => {

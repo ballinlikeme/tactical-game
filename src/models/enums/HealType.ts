@@ -1,5 +1,5 @@
 export enum HealType {
-    SINGLE = 'signle',
-    MASS = 'mass',
-    HEAL = 'heal'
+    SINGLE = "single",
+    MASS = "mass",
+    HEAL = "heal",
 }

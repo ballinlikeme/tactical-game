@@ -86,7 +86,7 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
                                 isParalyzed={
                                     board.queue.paralyzedInNextRound.includes(
                                         cell
-                                    ) || cell.unit!.isParalyzed
+                                    ) || !!(cell.unit && cell.unit.isParalyzed)
                                 }
                             />
                         ))}

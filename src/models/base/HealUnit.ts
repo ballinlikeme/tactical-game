@@ -19,7 +19,8 @@ export class HealUnit extends BaseUnit {
         if (super.canInteractWith(target)) {
             if (
                 this.playerId === target.unit?.playerId &&
-                this.cell.id !== target.id
+                this.cell.id !== target.id &&
+                !target.unit.isDead
             ) {
                 return true;
             }
@@ -27,18 +28,5 @@ export class HealUnit extends BaseUnit {
         return false;
     }
 
-    interactWith(target: Cell): void {
-        if (this.healType === HealType.SINGLE) {
-            if (target.availiable && target.unit && !target.unit.isDead) {
-                if (
-                    target.unit.healthPoints + this.heal >
-                    target.unit.maxHealthPoints
-                ) {
-                    target.unit.healthPoints = target.unit.maxHealthPoints;
-                } else {
-                    target.unit.healthPoints += this.heal;
-                }
-            }
-        }
-    }
+    interactWith(target: Cell): void {}
 }

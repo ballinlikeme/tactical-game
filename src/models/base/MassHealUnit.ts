@@ -13,7 +13,7 @@ export class MassHealUnit extends HealUnit {
             const isAllyRow = row[0].unit?.playerId === this.playerId;
             if (isAllyRow) {
                 row.forEach((cell) => {
-                    if (cell.unit) {
+                    if (cell.unit && cell.availiable) {
                         if (
                             cell.unit.healthPoints + this.heal >
                             cell.unit.maxHealthPoints

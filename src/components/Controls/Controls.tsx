@@ -55,7 +55,12 @@ export default function Controls({
     }
 
     function defend() {
-        console.log("defend");
+        if (selectedCell && selectedCell.unit) {
+            selectedCell.unit.defend();
+            updateBoard();
+            queue.updateQueue();
+            resetCells();
+        }
     }
 
     function skip() {
@@ -68,7 +73,9 @@ export default function Controls({
             <button className={styles.button} onClick={() => attack()}>
                 ATTACK
             </button>
-            <button className={styles.button}>DEFEND</button>
+            <button className={styles.button} onClick={() => defend()}>
+                DEFEND
+            </button>
             <button className={styles.button} onClick={() => skip()}>
                 SKIP
             </button>

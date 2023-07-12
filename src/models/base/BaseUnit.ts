@@ -1,5 +1,5 @@
 import { Cell } from "../Cell";
-import { UnitType, UnitNames } from "../enums"
+import { UnitType, UnitNames } from "../enums";
 
 export interface BaseUnitProps {
     cell: Cell;
@@ -12,11 +12,11 @@ export class BaseUnit {
     initiative: number;
     healthPoints: number;
     isDead: boolean;
-    isDefending: boolean = false;
-    isParalyzed: boolean = false;
+    isDefending = false;
+    isParalyzed = false;
     cell: Cell;
     playerId: number;
-    image: string = '';
+    image = "";
     id: number;
     maxHealthPoints: number;
 
@@ -29,7 +29,7 @@ export class BaseUnit {
         this.cell = props.cell;
         this.cell.unit = this;
         this.playerId = props.playerId;
-        this.id = Math.random()
+        this.id = Math.random();
         this.maxHealthPoints = 0;
     }
 
@@ -42,6 +42,9 @@ export class BaseUnit {
         return true;
     }
 
-    interactWith(target: Cell): void { }
+    interactWith(target: Cell): void {}
 
+    defend(): void {
+        this.isDefending = true;
+    }
 }

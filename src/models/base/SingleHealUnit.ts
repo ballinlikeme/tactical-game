@@ -10,7 +10,7 @@ export class SingleHealUnit extends HealUnit {
     }
 
     interactWith(target: Cell): void {
-        if (target.availiable && target.unit && !target.unit.isDead) {
+        if (target.availiable && target.unit) {
             if (
                 target.unit.healthPoints + this.heal >
                 target.unit.maxHealthPoints
