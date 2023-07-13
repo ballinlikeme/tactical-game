@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Board, Queue } from "./models";
+import { Board } from "./models";
 import BoardComponent from "./components/BoardComponent/BoardComponent";
 import Container from "./components/Container/Container";
 import "./App.css";

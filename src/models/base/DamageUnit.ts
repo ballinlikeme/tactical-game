@@ -1,8 +1,7 @@
 import { BaseUnit, BaseUnitProps } from "./BaseUnit";
 import { Cell } from "../Cell";
 
-export interface DamageUnitProps
-    extends Omit<BaseUnitProps, "type" | "damage"> {}
+export type DamageUnitProps = Omit<BaseUnitProps, "type" | "damage">;
 
 export class DamageUnit extends BaseUnit {
     damage: number;

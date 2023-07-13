@@ -42,7 +42,9 @@ export class BaseUnit {
         return true;
     }
 
-    interactWith(target: Cell): void {}
+    interactWith(target: Cell): void {
+        console.log(target);
+    }
 
     defend(): void {
         this.isDefending = true;

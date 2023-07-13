@@ -8,7 +8,7 @@ export class Cell {
     unit: BaseUnit | null;
     id: number;
     board: Board;
-    availiable: boolean = false;
+    availiable = false;
 
     constructor(board: Board, x: number, y: number, unit: BaseUnit | null) {
         this.board = board;
@@ -19,10 +19,10 @@ export class Cell {
     }
 
     canUnitInteractWith(target: Cell): boolean {
-        console.log(this.unit?.playerId, 'in cell');
+        console.log(this.unit?.playerId, "in cell");
         if (this.unit?.type !== UnitType.HEALER) {
             if (this.unit?.playerId !== target.unit?.playerId) {
-                return true
+                return true;
             }
             return false;
         } else {

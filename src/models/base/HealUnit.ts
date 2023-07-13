@@ -2,7 +2,7 @@ import { BaseUnit, BaseUnitProps } from ".";
 import { Cell } from "..";
 import { HealType, UnitType } from "../enums";
 
-export interface HealUnitProps extends Omit<BaseUnitProps, "type"> {}
+export type HealUnitProps = Omit<BaseUnitProps, "type">;
 
 export class HealUnit extends BaseUnit {
     type: UnitType = UnitType.HEALER;
@@ -28,5 +28,7 @@ export class HealUnit extends BaseUnit {
         return false;
     }
 
-    interactWith(target: Cell): void {}
+    interactWith(target: Cell): void {
+        super.interactWith(target);
+    }
 }

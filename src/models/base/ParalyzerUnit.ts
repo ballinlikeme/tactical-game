@@ -2,7 +2,7 @@ import { BaseUnit, BaseUnitProps } from "./BaseUnit";
 import { Cell } from "../index";
 import { UnitType } from "../enums";
 
-export interface ParalyzerUnitProps extends Omit<BaseUnitProps, "type"> {}
+export type ParalyzerUnitProps = Omit<BaseUnitProps, "type">;
 
 export class ParalyzerUnit extends BaseUnit {
     type: UnitType = UnitType.PARALYZER;
