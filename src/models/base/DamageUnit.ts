@@ -20,6 +20,7 @@ export class DamageUnit extends BaseUnit {
                 target.unit.isDead = true;
                 target.unit.healthPoints = 0;
             }
+            console.log(target.unit.healthPoints);
         }
     }
 }

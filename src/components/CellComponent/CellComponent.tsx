@@ -1,9 +1,5 @@
 import { Cell } from "../../models";
-import {
-    BaseUnit,
-    DamageUnit,
-    HealUnit,
-} from "../../models/base";
+import { BaseUnit, DamageUnit, HealUnit } from "../../models/base";
 import styles from "./CellComponent.module.css";
 
 interface CellProps {
@@ -42,6 +38,7 @@ export default function CellComponent({
                     cell.unit.isDead ? styles.dead : "",
                 ].join(" ")}
                 onClick={() => selectCell(cell)}
+                aria-label="cell"
             >
                 <div className={styles.header}>
                     <h3>{cell.unit.name}</h3>
