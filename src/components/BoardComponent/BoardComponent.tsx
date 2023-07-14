@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, Fragment, useState, useEffect } from "react";
 import { Board, Cell } from "../../models";
-import { BaseUnit } from "../../models/base";
+import { BaseUnit, MageUnit } from "../../models/base";
 import CellComponent from "../CellComponent/CellComponent";
 import QueueComponent from "../QueueComponent/QueueComponent";
 import Controls from "../Controls/Controls";
@@ -19,6 +19,14 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
     const [round, setRound] = useState<number>(1);
 
     function selectCell(cell: Cell): void {
+
+        if (selectedCell
+            && selectedCell.unit
+            && (isMassHealer(selectedCell.unit) || isMageUnit(selectedCell.unit))) {
+            setSelectedCell(cell);
+            return;
+        }
+
         if (selectedCell && cell.availiable && cell.unit) {
             setTargetCell(cell);
             return;
@@ -37,6 +45,14 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
         if (unit instanceof MassHealUnit) {
             return true;
         }
+        return false;
+    }
+
+    function isMageUnit(unit: BaseUnit): unit is MageUnit {
+        if (unit instanceof MageUnit) {
+            return true;
+        }
+
         return false;
     }
 
@@ -98,6 +114,7 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
                 setSelectedCell={setSelectedCell}
                 setTargetCell={setTargetCell}
                 isMassHealer={isMassHealer}
+                isMageUnit={isMageUnit}
                 currentUnit={currentUnit}
                 selectedCell={selectedCell}
                 targetCell={targetCell}

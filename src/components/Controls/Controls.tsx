@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Cell, Queue } from "../../models";
-import { BaseUnit } from "../../models/base";
+import { BaseUnit, MageUnit } from "../../models/base";
 import { MassHealUnit } from "../../models/base/MassHealUnit";
 import styles from "./Controls.module.css";
 
@@ -13,6 +13,7 @@ interface ControlsProps {
     currentUnit: BaseUnit | null;
     queue: Queue;
     isMassHealer: (unit: BaseUnit) => unit is MassHealUnit;
+    isMageUnit: (unit: BaseUnit) => unit is MageUnit
 }
 
 export default function Controls({
@@ -20,6 +21,7 @@ export default function Controls({
     targetCell,
     currentUnit,
     isMassHealer,
+    isMageUnit,
     updateBoard,
     setSelectedCell,
     setTargetCell,
@@ -33,7 +35,7 @@ export default function Controls({
     function attack(): void {
         if (
             selectedCell?.unit &&
-            isMassHealer(selectedCell.unit) &&
+            (isMassHealer(selectedCell.unit) || isMageUnit(selectedCell.unit)) &&
             selectedCell.unit.id === currentUnit?.id
         ) {
             selectedCell.unit.interactWith();
