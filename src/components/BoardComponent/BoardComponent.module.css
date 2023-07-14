@@ -1,8 +1,8 @@
 .board {
-    width: 900px;
+    width: 70vw;
 
     border: 1px solid black;
 
     display: grid;
-    grid-template-columns: repeat(3, 300px);
+    grid-template-columns: repeat(3, 33.333%);
 }
