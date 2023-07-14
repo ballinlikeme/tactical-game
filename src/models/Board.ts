@@ -75,4 +75,21 @@ export class Board {
         newBoard.queue = this.queue;
         return newBoard;
     }
+
+    public setupUnitsForTests(): void {
+        // Player 1 units
+        new Archimage({ cell: this.getCell(0, 0), playerId: 1 });
+        new Skeleton({ cell: this.getCell(1, 0), playerId: 1 });
+        new Bishop({ cell: this.getCell(2, 0), playerId: 1 });
+        new Skeleton({ cell: this.getCell(0, 1), playerId: 1 });
+        new Sirena({ cell: this.getCell(1, 1), playerId: 1 });
+        new ElfArcher({ cell: this.getCell(2, 1), playerId: 1 });
+        // Player 0 units
+        new ElfArcher({ cell: this.getCell(0, 2), playerId: 0 });
+        new Monk({ cell: this.getCell(1, 2), playerId: 0 });
+        new Centaur({ cell: this.getCell(2, 2), playerId: 0 });
+        new Bandit({ cell: this.getCell(0, 3), playerId: 0 });
+        new Sirena({ cell: this.getCell(1, 3), playerId: 0 });
+        new Bishop({ cell: this.getCell(2, 3), playerId: 0 });
+    }
 }
