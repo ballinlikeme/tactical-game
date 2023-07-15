@@ -1,6 +1,7 @@
 import { Cell } from "../../models";
 import { BaseUnit, DamageUnit, HealUnit } from "../../models/base";
 import styles from "./CellComponent.module.css";
+import skull from "../../assets/skull.svg";
 
 interface CellProps {
     cell: Cell;
@@ -40,6 +41,9 @@ export default function CellComponent({
                 onClick={() => selectCell(cell)}
                 aria-label="cell"
             >
+                <div className={cell.unit.isDead ? `${styles.death} ${styles.active}` : styles.death}>
+                    <img src={skull} alt="Skull" />
+                </div>
                 <div className={styles.header}>
                     <h3>{cell.unit.name}</h3>
                 </div>
@@ -53,12 +57,11 @@ export default function CellComponent({
                         <div
                             className={styles.level}
                             style={{
-                                height: `${
-                                    100 -
+                                height: `${100 -
                                     (cell.unit.healthPoints /
                                         cell.unit.maxHealthPoints) *
-                                        100
-                                }%`,
+                                    100
+                                    }%`,
                             }}
                         ></div>
                     </div>
