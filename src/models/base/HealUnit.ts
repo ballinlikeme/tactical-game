@@ -18,9 +18,8 @@ export class HealUnit extends BaseUnit {
     canInteractWith(target: Cell): boolean {
         if (super.canInteractWith(target)) {
             if (
-                this.playerId === target.unit?.playerId &&
-                this.cell.id !== target.id &&
-                !target.unit.isDead
+                this.playerId === target.unit?.playerId
+                && !target.unit.isDead
             ) {
                 return true;
             }

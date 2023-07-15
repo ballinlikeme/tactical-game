@@ -50,7 +50,7 @@ describe('heal units', () => {
         if (bishopCell.unit instanceof MassHealUnit) {
             board.cells
                 .reduce((prev, curr) => prev.concat(curr))
-                .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId && cell.id !== bishopCell.id)
+                .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId)
                 .forEach((cell) => {
                     if (bishopCell.unit instanceof MassHealUnit) {
                         cell.unit!.healthPoints = cell.unit!.maxHealthPoints - bishopCell.unit.heal;
@@ -63,7 +63,7 @@ describe('heal units', () => {
 
             board.cells
                 .reduce((prev, curr) => prev.concat(curr))
-                .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId && cell.id !== bishopCell.id)
+                .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId)
                 .forEach((cell) => expect(cell.unit?.healthPoints).toBe(cell.unit?.maxHealthPoints));
         }
     })
