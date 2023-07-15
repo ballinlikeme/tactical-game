@@ -52,7 +52,6 @@ export class Board {
                 const playerId = cell.y <= 1 ? 1 : 0;
                 const Unit = arrayRandElement<typeof Sirena>(units);
                 new Unit({ cell, playerId });
-                console.log(cell.unit);
             });
     }
 
