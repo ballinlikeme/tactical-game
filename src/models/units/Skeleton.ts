@@ -1,6 +1,6 @@
-import { MeleeUnit, DamageUnitProps } from "../base"
+import { MeleeUnit, DamageUnitProps } from "../base";
 import { UnitNames } from "../enums";
-import image from "../../assets/skeleton.png"
+import image from "../../assets/skeleton.webp";
 
 export class Skeleton extends MeleeUnit {
     constructor(props: DamageUnitProps) {
@@ -9,7 +9,7 @@ export class Skeleton extends MeleeUnit {
         this.maxHealthPoints = 100;
         this.damage = 25;
         this.initiative = 50;
-        this.name = UnitNames.SKELETON
+        this.name = UnitNames.SKELETON;
         this.image = image;
     }
 }
