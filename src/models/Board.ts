@@ -1,14 +1,17 @@
 import { Queue } from "./Queue";
 import { Cell } from "./Cell";
-import { Archimage } from "./units/Archimage";
-import { Bandit } from "./units/Bandit";
-import { ElfArcher } from "./units/ElfArcher";
-import { Monk } from "./units/Monk";
-import { Sirena } from "./units/Sirena";
-import { Skeleton } from "./units/Skeleton";
-import { SkeletonMage } from "./units/SkeletonMage";
-import { Bishop } from "./units/Bishop";
-import { Centaur } from "./units/Centaur";
+import {
+    Archimage,
+    Bandit,
+    Bishop,
+    Centaur,
+    ElfArcher,
+    Monk,
+    Sirena,
+    Skeleton,
+    SkeletonMage,
+    Unit,
+} from "./units";
 
 const units = [
     Archimage,
@@ -50,22 +53,36 @@ export class Board {
             .reduce((prev, curr) => prev.concat(curr))
             .forEach((cell) => {
                 const playerId = cell.y <= 1 ? 1 : 0;
-                const Unit = arrayRandElement<typeof Sirena>(units);
-                new Unit({ cell, playerId });
+                const NewUnit = arrayRandElement<typeof Unit>(units);
+                new NewUnit({ cell, playerId });
             });
     }
 
-    public hightlightCells(selectedCell: Cell | null): void {
-        for (let i = 0; i < 4; i++) {
-            const row = this.cells[i];
-            if (row) {
-                for (let j = 0; j < row.length; j++) {
-                    const target = row[j];
-                    target.availiable =
-                        !!selectedCell?.unit?.canInteractWith(target);
-                }
-            }
-        }
+    // public hightlightCells(selectedCell: Cell | null): void {
+    //     if (selectedCell?.unit instanceof MeleeUnit) {
+    //         selectedCell.unit.check();
+    //         return;
+    //     }
+
+    //     for (let i = 0; i < 4; i++) {
+    //         const row = this.cells[i];
+    //         if (row) {
+    //             for (let j = 0; j < row.length; j++) {
+    //                 const target = row[j];
+
+    //                 target.availiable =
+    //                     !!selectedCell?.unit?.canInteractWith(target);
+    //             }
+    //         }
+    //     }
+    // }
+
+    public resetHighlitedCells(): void {
+        this.cells
+            .reduce((prev, curr) => prev.concat(curr))
+            .forEach((cell) => {
+                if (cell.availiable) cell.availiable = false;
+            });
     }
 
     public getCopyBoard(): Board {

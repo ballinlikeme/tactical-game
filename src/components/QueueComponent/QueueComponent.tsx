@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Cell } from "../../models";
-import { BaseUnit } from "../../models/base";
 import styles from "./QueueComponent.module.css";
+import { Unit } from "../../models/units/Unit";
 
 interface QueueProps {
     queue: Cell[] | null;
-    setCurrentUnit: Dispatch<SetStateAction<BaseUnit | null>>;
+    setCurrentUnit: Dispatch<SetStateAction<Unit | null>>;
     setSelectedCell: Dispatch<SetStateAction<Cell | null>>;
 }
 

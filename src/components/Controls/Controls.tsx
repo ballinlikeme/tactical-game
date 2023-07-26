@@ -1,27 +1,22 @@
 import { Dispatch, SetStateAction } from "react";
 import { Cell, Queue } from "../../models";
-import { BaseUnit, MageUnit } from "../../models/base";
-import { MassHealUnit } from "../../models/base/MassHealUnit";
+import { Unit } from "../../models/units/Unit";
 import styles from "./Controls.module.css";
 
 interface ControlsProps {
     selectedCell: Cell | null;
-    targetCell: Cell | null;
+    targetCell: Cell | undefined;
     updateBoard: () => void;
     setSelectedCell: Dispatch<SetStateAction<Cell | null>>;
-    setTargetCell: Dispatch<SetStateAction<Cell | null>>;
-    currentUnit: BaseUnit | null;
+    setTargetCell: Dispatch<SetStateAction<Cell | undefined>>;
+    currentUnit: Unit | null;
     queue: Queue;
-    isMassHealer: (unit: BaseUnit) => unit is MassHealUnit;
-    isMageUnit: (unit: BaseUnit) => unit is MageUnit
 }
 
 export default function Controls({
     selectedCell,
     targetCell,
     currentUnit,
-    isMassHealer,
-    isMageUnit,
     updateBoard,
     setSelectedCell,
     setTargetCell,
@@ -29,27 +24,17 @@ export default function Controls({
 }: ControlsProps) {
     function resetCells(): void {
         setSelectedCell(null);
-        setTargetCell(null);
+        setTargetCell(undefined);
     }
 
     function attack(): void {
         if (
-            selectedCell?.unit &&
-            (isMassHealer(selectedCell.unit) || isMageUnit(selectedCell.unit)) &&
-            selectedCell.unit.id === currentUnit?.id
-        ) {
-            selectedCell.unit.interactWith();
-            updateBoard();
-            queue.updateQueue();
-            resetCells();
-        }
-
-        if (
             selectedCell &&
-            targetCell &&
-            selectedCell.unit?.id === currentUnit?.id
+            selectedCell.unit &&
+            currentUnit &&
+            selectedCell.unit.id === currentUnit.id
         ) {
-            selectedCell.unit?.interactWith(targetCell);
+            selectedCell.unit.performAction(targetCell);
             updateBoard();
             queue.updateQueue();
             resetCells();

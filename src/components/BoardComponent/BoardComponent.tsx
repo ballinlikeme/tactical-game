@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, Fragment, useState, useEffect } from "react";
 import { Board, Cell } from "../../models";
-import { BaseUnit, MageUnit } from "../../models/base";
+import { Unit } from "../../models/units/Unit";
+import { StrategiesType } from "../../models/enums/StrategiesType";
 import CellComponent from "../CellComponent/CellComponent";
 import QueueComponent from "../QueueComponent/QueueComponent";
 import Controls from "../Controls/Controls";
 import styles from "./BoardComponent.module.css";
-import { MassHealUnit } from "../../models/base/MassHealUnit";
 
 interface BoardProps {
     board: Board;
@@ -14,46 +14,21 @@ interface BoardProps {
 
 export default function BoardComponent({ board, setBoard }: BoardProps) {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
-    const [targetCell, setTargetCell] = useState<Cell | null>(null);
-    const [currentUnit, setCurrentUnit] = useState<BaseUnit | null>(null);
+    const [targetCell, setTargetCell] = useState<Cell | undefined>(undefined);
+    const [currentUnit, setCurrentUnit] = useState<Unit | null>(null);
     const [round, setRound] = useState<number>(1);
 
     function selectCell(cell: Cell): void {
-
-        if (selectedCell
-            && selectedCell.unit
-            && (isMassHealer(selectedCell.unit) || isMageUnit(selectedCell.unit))) {
-            setSelectedCell(cell);
-            return;
-        }
-
-        if (selectedCell && cell.availiable && cell.unit) {
+        if (
+            selectedCell &&
+            cell.availiable &&
+            selectedCell.unit?.getActionType() === StrategiesType.SINGLE
+        ) {
             setTargetCell(cell);
             return;
         }
 
-        if (selectedCell?.id === cell.id) {
-            setSelectedCell(null);
-            setTargetCell(null);
-            return;
-        }
-
         setSelectedCell(cell);
-    }
-
-    function isMassHealer(unit: BaseUnit): unit is MassHealUnit {
-        if (unit instanceof MassHealUnit) {
-            return true;
-        }
-        return false;
-    }
-
-    function isMageUnit(unit: BaseUnit): unit is MageUnit {
-        if (unit instanceof MageUnit) {
-            return true;
-        }
-
-        return false;
     }
 
     function updateBoard(): void {
@@ -62,12 +37,12 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
     }
 
     function hightlightCells(): void {
-        board.hightlightCells(selectedCell);
+        selectedCell?.unit?.highlightCells();
         updateBoard();
     }
 
     useEffect(() => {
-        setTargetCell(null);
+        board.resetHighlitedCells();
         hightlightCells();
     }, [selectedCell]);
 
@@ -113,8 +88,6 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
                 queue={board.queue}
                 setSelectedCell={setSelectedCell}
                 setTargetCell={setTargetCell}
-                isMassHealer={isMassHealer}
-                isMageUnit={isMageUnit}
                 currentUnit={currentUnit}
                 selectedCell={selectedCell}
                 targetCell={targetCell}

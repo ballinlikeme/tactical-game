@@ -1,5 +1,4 @@
 import { Cell } from "../../models";
-import { BaseUnit, DamageUnit, HealUnit } from "../../models/base";
 import styles from "./CellComponent.module.css";
 import skull from "../../assets/skull.svg";
 
@@ -18,16 +17,6 @@ export default function CellComponent({
     isTarget,
     isParalyzed,
 }: CellProps) {
-    function isDamager(unit: BaseUnit): unit is DamageUnit {
-        if (unit instanceof DamageUnit) return true;
-        return false;
-    }
-
-    function isHealer(unit: BaseUnit): unit is HealUnit {
-        if (unit instanceof HealUnit) return true;
-        return false;
-    }
-
     if (cell.unit) {
         return (
             <div
@@ -41,7 +30,13 @@ export default function CellComponent({
                 onClick={() => selectCell(cell)}
                 aria-label="cell"
             >
-                <div className={cell.unit.isDead ? `${styles.death} ${styles.active}` : styles.death}>
+                <div
+                    className={
+                        cell.unit.isDead
+                            ? `${styles.death} ${styles.active}`
+                            : styles.death
+                    }
+                >
                     <img src={skull} alt="Skull" />
                 </div>
                 <div className={styles.header}>
@@ -57,11 +52,12 @@ export default function CellComponent({
                         <div
                             className={styles.level}
                             style={{
-                                height: `${100 -
+                                height: `${
+                                    100 -
                                     (cell.unit.healthPoints /
                                         cell.unit.maxHealthPoints) *
-                                    100
-                                    }%`,
+                                        100
+                                }%`,
                             }}
                         ></div>
                     </div>
@@ -69,36 +65,14 @@ export default function CellComponent({
                         <div className={styles.container}>
                             <ul className={styles.column}>
                                 <li className="cell-item">HP</li>
-                                {isDamager(cell.unit) && (
-                                    <li className="cell-item">Damage</li>
-                                )}
-                                {isHealer(cell.unit) && (
-                                    <>
-                                        <li className="cell-item">Heal</li>
-                                        <li className="cell-item">Heal Type</li>
-                                    </>
-                                )}
+                                <li className="cell-item">Power</li>
                             </ul>
                             <ul className={styles.column}>
                                 <li className="cell-item">
                                     {cell.unit.healthPoints}/
                                     {cell.unit.maxHealthPoints}
                                 </li>
-                                {isDamager(cell.unit) && (
-                                    <li className="cell-item">
-                                        {cell.unit.damage}
-                                    </li>
-                                )}
-                                {isHealer(cell.unit) && (
-                                    <>
-                                        <li className="cell-item">
-                                            {cell.unit.heal}
-                                        </li>
-                                        <li className="cell-item">
-                                            {cell.unit.healType}
-                                        </li>
-                                    </>
-                                )}
+                                <li>{cell.unit.power}</li>
                             </ul>
                         </div>
                         <ul className={styles.effects}>

@@ -1,15 +1,17 @@
-import { RangeUnit, DamageUnitProps } from "../base"
+import { Unit, UnitProps } from "./Unit";
 import { UnitNames } from "../enums";
-import image from "../../assets/elf_archer.png"
+import { MassEnemyStrategy } from "../strategies/target/MassEnemyStrategy";
+import image from "../../assets/elf_archer.png";
 
-export class ElfArcher extends RangeUnit {
-    constructor(props: DamageUnitProps) {
+export class ElfArcher extends Unit {
+    constructor(props: UnitProps) {
         super(props);
         this.healthPoints = 90;
         this.maxHealthPoints = 90;
-        this.damage = 45;
+        this.power = 45;
         this.initiative = 60;
-        this.name = UnitNames.ELF_ARCHER
+        this.name = UnitNames.ELF_ARCHER;
         this.image = image;
+        this.targetStrategy = new MassEnemyStrategy();
     }
 }

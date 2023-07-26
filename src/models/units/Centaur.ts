@@ -1,15 +1,17 @@
-import { MeleeUnit, DamageUnitProps } from "../base"
+import { Unit, UnitProps } from "./Unit";
 import { UnitNames } from "../enums";
-import image from "../../assets/centaur.jpg"
+import { NeighborEnemyStrategy } from "../strategies/target/NeighborEnemyStrategy";
+import image from "../../assets/centaur.jpg";
 
-export class Centaur extends MeleeUnit {
-    constructor(props: DamageUnitProps) {
+export class Centaur extends Unit {
+    constructor(props: UnitProps) {
         super(props);
         this.healthPoints = 150;
         this.maxHealthPoints = 150;
-        this.damage = 50;
+        this.power = 50;
         this.initiative = 50;
-        this.name = UnitNames.CENTAUR
+        this.name = UnitNames.CENTAUR;
         this.image = image;
+        this.targetStrategy = new NeighborEnemyStrategy();
     }
 }

@@ -1,16 +1,16 @@
 import { Board } from "./Board";
-import { BaseUnit } from "./base";
 import { UnitType } from "./enums";
+import { Unit } from "./units/Unit";
 
 export class Cell {
     readonly x: number;
     readonly y: number;
-    unit: BaseUnit | null;
+    unit: Unit | null;
     id: number;
     board: Board;
     availiable = false;
 
-    constructor(board: Board, x: number, y: number, unit: BaseUnit | null) {
+    constructor(board: Board, x: number, y: number, unit: Unit | null) {
         this.board = board;
         this.x = x;
         this.y = y;
