@@ -19,6 +19,10 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
     const [round, setRound] = useState<number>(1);
 
     function selectCell(cell: Cell): void {
+        if (selectedCell && selectedCell.id === cell.id) {
+            setSelectedCell(null);
+        }
+
         if (
             selectedCell &&
             cell.availiable &&
