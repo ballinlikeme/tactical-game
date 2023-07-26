@@ -1,5 +1,4 @@
-import { Board } from "../Board"
-import { Bandit } from "../units/Bandit"
+import { Board } from "../Board";
 
 let board: Board;
 
@@ -9,26 +8,23 @@ beforeEach(() => {
     board.setupUnitsForTests();
 });
 
-describe('melee units', () => {
-    test('if can attack enemy units', () => {
+describe("melee units", () => {
+    test("if can attack enemy units", () => {
         const skeletonCell = board.cells[1][0];
         const elfArcherCell = board.cells[2][0];
 
-        if (
-            skeletonCell.unit
-            && elfArcherCell.unit
-            && skeletonCell.unit instanceof Bandit
-        ) {
+        if (skeletonCell.unit && elfArcherCell.unit) {
             elfArcherCell.availiable = true;
 
-            skeletonCell.unit.interactWith(elfArcherCell);
+            skeletonCell.unit.performAction(elfArcherCell);
 
-            expect(elfArcherCell.unit.healthPoints)
-                .toBe(elfArcherCell.unit.maxHealthPoints - skeletonCell.unit.damage);
+            expect(elfArcherCell.unit.healthPoints).toBe(
+                elfArcherCell.unit.maxHealthPoints - skeletonCell.unit.power
+            );
         }
-    })
+    });
 
-    test('if select targets correctly', () => {
+    test("if select targets correctly", () => {
         const skeletonCell = board.cells[1][0];
         const elfArcherCell = board.cells[2][0];
         const monkCell = board.cells[2][1];
@@ -38,19 +34,19 @@ describe('melee units', () => {
         const bishopCell = board.cells[3][2];
 
         if (
-            skeletonCell.unit
-            && elfArcherCell.unit
-            && monkCell.unit
-            && centaurCell.unit
-            && banditCell.unit
-            && sirenaCell.unit
-            && bishopCell.unit
+            skeletonCell.unit &&
+            elfArcherCell.unit &&
+            monkCell.unit &&
+            centaurCell.unit &&
+            banditCell.unit &&
+            sirenaCell.unit &&
+            bishopCell.unit
         ) {
             expect(elfArcherCell.availiable).toBe(false);
             expect(monkCell.availiable).toBe(false);
             expect(centaurCell.availiable).toBe(false);
 
-            board.hightlightCells(skeletonCell);
+            skeletonCell.unit.highlightCells();
 
             expect(elfArcherCell.availiable).toBe(true);
             expect(monkCell.availiable).toBe(true);
@@ -59,7 +55,7 @@ describe('melee units', () => {
             elfArcherCell.unit.isDead = true;
             monkCell.unit.isDead = true;
 
-            board.hightlightCells(skeletonCell);
+            skeletonCell.unit.highlightCells();
 
             expect(elfArcherCell.availiable).toBe(false);
             expect(monkCell.availiable).toBe(false);
@@ -69,7 +65,7 @@ describe('melee units', () => {
             monkCell.unit.isDead = true;
             centaurCell.unit.isDead = true;
 
-            board.hightlightCells(skeletonCell);
+            skeletonCell.unit.highlightCells();
 
             expect(banditCell.availiable).toBe(true);
             expect(sirenaCell.availiable).toBe(true);
@@ -78,11 +74,11 @@ describe('melee units', () => {
             banditCell.unit.isDead = true;
             sirenaCell.unit.isDead = true;
 
-            board.hightlightCells(skeletonCell);
+            skeletonCell.unit.highlightCells();
 
             expect(banditCell.availiable).toBe(false);
             expect(sirenaCell.availiable).toBe(false);
             expect(bishopCell.availiable).toBe(true);
         }
-    })
-})
+    });
+});

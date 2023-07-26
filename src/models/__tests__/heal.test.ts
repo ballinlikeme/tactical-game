@@ -1,5 +1,4 @@
 import { Board } from "../Board";
-import { MassHealUnit, SingleHealUnit } from "../base";
 
 let board: Board;
 
@@ -9,62 +8,89 @@ beforeEach(() => {
     board.setupUnitsForTests();
 });
 
-describe('heal units', () => {
-    test('if select targets correctly', () => {
+describe("heal units", () => {
+    test("if select targets correctly", () => {
         const bishopCell = board.cells[3][2];
         const monkCell = board.cells[2][1];
 
-        board.hightlightCells(bishopCell);
+        if (bishopCell.unit && monkCell.unit) {
+            bishopCell.unit.highlightCells();
 
-        board.cells
-            .reduce((prev, curr) => prev.concat(curr))
-            .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId && cell.id !== bishopCell.id)
-            .forEach((cell) => expect(cell.availiable).toBe(true));
+            board.cells
+                .reduce((prev, curr) => prev.concat(curr))
+                .filter(
+                    (cell) =>
+                        cell.unit?.playerId === bishopCell.unit?.playerId &&
+                        cell.id !== bishopCell.id
+                )
+                .forEach((cell) => expect(cell.availiable).toBe(true));
 
-        board.hightlightCells(monkCell);
+            monkCell.unit.highlightCells();
 
-        board.cells
-            .reduce((prev, curr) => prev.concat(curr))
-            .filter((cell) => cell.unit?.playerId === monkCell.unit?.playerId && cell.id !== monkCell.id)
-            .forEach((cell) => expect(cell.availiable).toBe(true));
-    })
+            board.cells
+                .reduce((prev, curr) => prev.concat(curr))
+                .filter(
+                    (cell) =>
+                        cell.unit?.playerId === monkCell.unit?.playerId &&
+                        cell.id !== monkCell.id
+                )
+                .forEach((cell) => expect(cell.availiable).toBe(true));
+        }
+    });
 
-    test('if single healer can heal', () => {
+    test("if single healer can heal", () => {
         const monkCell = board.cells[2][1];
         const elfArcherCell = board.cells[2][0];
 
-        if (monkCell.unit && elfArcherCell.unit && monkCell.unit instanceof SingleHealUnit) {
-            elfArcherCell.unit.healthPoints = elfArcherCell.unit.maxHealthPoints - monkCell.unit.heal;
+        if (monkCell.unit && elfArcherCell.unit) {
+            elfArcherCell.unit.healthPoints =
+                elfArcherCell.unit.maxHealthPoints - monkCell.unit.power;
 
-            board.hightlightCells(monkCell);
+            monkCell.unit.highlightCells();
+            monkCell.unit.performAction(elfArcherCell);
 
-            monkCell.unit.interactWith(elfArcherCell);
-
-            expect(elfArcherCell.unit.healthPoints).toBe(elfArcherCell.unit.maxHealthPoints);
+            expect(elfArcherCell.unit.healthPoints).toBe(
+                elfArcherCell.unit.maxHealthPoints
+            );
         }
-    })
+    });
 
-    test('if mass healer can heal', () => {
+    test("if mass healer can heal", () => {
         const bishopCell = board.cells[3][2];
 
-        if (bishopCell.unit instanceof MassHealUnit) {
+        if (bishopCell.unit) {
             board.cells
                 .reduce((prev, curr) => prev.concat(curr))
-                .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId)
-                .forEach((cell) => {
-                    if (bishopCell.unit instanceof MassHealUnit) {
-                        cell.unit!.healthPoints = cell.unit!.maxHealthPoints - bishopCell.unit.heal;
+                .filter((cell) => {
+                    if (cell.unit && bishopCell.unit) {
+                        return (
+                            cell.unit.playerId === bishopCell.unit.playerId &&
+                            cell.unit.id !== bishopCell.unit.id
+                        );
                     }
                 })
+                .forEach((cell) => {
+                    if (cell.unit && bishopCell.unit) {
+                        cell.unit.healthPoints =
+                            cell.unit.maxHealthPoints - bishopCell.unit.power;
+                    }
+                });
 
-            board.hightlightCells(bishopCell);
-
-            bishopCell.unit.interactWith();
+            bishopCell.unit.highlightCells();
+            bishopCell.unit.performAction();
 
             board.cells
                 .reduce((prev, curr) => prev.concat(curr))
-                .filter((cell) => cell.unit?.playerId === bishopCell.unit?.playerId)
-                .forEach((cell) => expect(cell.unit?.healthPoints).toBe(cell.unit?.maxHealthPoints));
+                .filter(
+                    (cell) =>
+                        cell.unit?.playerId === bishopCell.unit?.playerId &&
+                        cell.unit?.id !== bishopCell.unit?.id
+                )
+                .forEach((cell) =>
+                    expect(cell.unit?.healthPoints).toBe(
+                        cell.unit?.maxHealthPoints
+                    )
+                );
         }
-    })
-})
+    });
+});

@@ -1,5 +1,4 @@
 import { Board } from "../Board";
-import { ParalyzerUnit } from "../base";
 
 let board: Board;
 
@@ -7,31 +6,32 @@ beforeEach(() => {
     board = new Board();
     board.initCells();
     board.setupUnitsForTests();
+    board.queue.reset();
 });
 
-describe('paralyzer unit', () => {
-
-    test('if can attack enemy units', () => {
+describe("paralyzer unit", () => {
+    test("if can attack enemy units", () => {
         const sirenaCell = board.cells[1][1];
         const elfArcherCell = board.cells[2][0];
 
-        board.hightlightCells(sirenaCell);
+        sirenaCell.unit?.highlightCells();
+        sirenaCell.unit?.performAction(elfArcherCell);
 
-        if (sirenaCell instanceof ParalyzerUnit) {
-            sirenaCell.interactWith(elfArcherCell);
+        expect(elfArcherCell.unit?.isParalyzed).toBe(true);
+    });
 
-            expect(elfArcherCell.unit?.isParalyzed).toBe(true);
-        }
-    })
-
-    test('if select targets correcly', () => {
+    test("if select targets correcly", () => {
         const sirenaCell = board.cells[1][1];
 
-        board.hightlightCells(sirenaCell);
+        if (sirenaCell.unit) {
+            sirenaCell.unit.highlightCells();
 
-        board.cells
-            .reduce((prev, curr) => prev.concat(curr))
-            .filter((cell) => cell.unit?.playerId !== sirenaCell.unit?.playerId)
-            .forEach((cell) => expect(cell.availiable).toBe(true))
-    })
-})
+            board.cells
+                .reduce((prev, curr) => prev.concat(curr))
+                .filter(
+                    (cell) => cell.unit?.playerId !== sirenaCell.unit?.playerId
+                )
+                .forEach((cell) => expect(cell.availiable).toBe(true));
+        }
+    });
+});
