@@ -26,7 +26,6 @@ export class NeighborEnemyStrategy implements HighlightStrategy {
                                 );
                                 if (nearestEnemy.length > 0) {
                                     if (nearestEnemy.includes(target)) {
-                                        console.log(target);
                                         return (target.availiable = true);
                                     }
                                 } else if (aliveUnits.includes(target))
@@ -63,7 +62,6 @@ export class NeighborEnemyStrategy implements HighlightStrategy {
                                 );
                                 if (nearestEnemy.length > 0) {
                                     if (nearestEnemy.includes(target)) {
-                                        console.log(target);
                                         return (target.availiable = true);
                                     }
                                 } else if (aliveUnits.includes(target))
