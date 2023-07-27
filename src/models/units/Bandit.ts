@@ -1,6 +1,7 @@
 import { UnitNames } from "../enums";
 import { Unit, UnitProps } from "./Unit";
 import { MassEnemyStrategy } from "../strategies/target/MassEnemyStrategy";
+import { SingleTargetStrategy } from "../strategies/Range";
 import image from "../../assets/bandit.png";
 
 export class Bandit extends Unit {
@@ -13,5 +14,6 @@ export class Bandit extends Unit {
         this.name = UnitNames.BANDIT;
         this.image = image;
         this.targetStrategy = new MassEnemyStrategy();
+        this.rangeStrategy = new SingleTargetStrategy();
     }
 }

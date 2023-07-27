@@ -2,6 +2,14 @@ import { Cell } from "../Cell";
 import { Unit } from "../units/Unit";
 import { StrategiesType } from "../enums/StrategiesType";
 
+export interface Strategy {
+    performAction(unit: Unit): void;
+}
+
+export interface ActionStrategy {
+    performAction(unit: Unit, target: Cell): void;
+}
+
 export interface HighlightStrategy {
     highlightCells(unit: Unit, cells: Cell[][]): void;
 }

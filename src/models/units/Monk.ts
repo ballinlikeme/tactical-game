@@ -1,7 +1,8 @@
 import { Unit, UnitProps } from "./Unit";
 import { UnitNames } from "../enums";
 import { MassFriendStrategy } from "../strategies/target/MassFriendStrategy";
-import { SingleHealStrategy } from "../strategies/action/SingleHealStrategy";
+import { HealStrategy } from "../strategies/action/HealStrategy";
+import { SingleTargetStrategy } from "../strategies/Range";
 import image from "../../assets/monk.png";
 
 export class Monk extends Unit {
@@ -14,6 +15,7 @@ export class Monk extends Unit {
         this.name = UnitNames.MONK;
         this.image = image;
         this.targetStrategy = new MassFriendStrategy();
-        this.actionStrategy = new SingleHealStrategy();
+        this.actionStrategy = new HealStrategy();
+        this.rangeStrategy = new SingleTargetStrategy();
     }
 }

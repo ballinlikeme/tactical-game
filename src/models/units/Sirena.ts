@@ -1,7 +1,8 @@
 import { Unit, UnitProps } from "./Unit";
 import { UnitNames } from "../enums";
-import { SingleParalyzeStrategy } from "../strategies/action/SingleParalyzeStrategy";
+import { ParalyzeStrategy } from "../strategies/action/ParalyzeStrategy";
 import { MassEnemyStrategy } from "../strategies/target/MassEnemyStrategy";
+import { SingleTargetStrategy } from "../strategies/Range";
 import image from "../../assets/sirena.jpg";
 
 export class Sirena extends Unit {
@@ -14,6 +15,7 @@ export class Sirena extends Unit {
         this.image = image;
         this.power = 0;
         this.targetStrategy = new MassEnemyStrategy();
-        this.actionStrategy = new SingleParalyzeStrategy();
+        this.actionStrategy = new ParalyzeStrategy();
+        this.rangeStrategy = new SingleTargetStrategy();
     }
 }

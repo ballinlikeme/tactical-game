@@ -1,7 +1,8 @@
 import { UnitNames } from "../enums";
 import { Unit, UnitProps } from "./Unit";
 import { MassFriendStrategy } from "../strategies/target/MassFriendStrategy";
-import { MassHealStrategy } from "../strategies/action/MassHealStrategy";
+import { HealStrategy } from "../strategies/action/HealStrategy";
+import { MassTargetStrategy } from "../strategies/Range";
 import image from "../../assets/bishop.jpg";
 
 export class Bishop extends Unit {
@@ -14,6 +15,7 @@ export class Bishop extends Unit {
         this.name = UnitNames.BISHOP;
         this.image = image;
         this.targetStrategy = new MassFriendStrategy();
-        this.actionStrategy = new MassHealStrategy();
+        this.actionStrategy = new HealStrategy();
+        this.rangeStrategy = new MassTargetStrategy();
     }
 }

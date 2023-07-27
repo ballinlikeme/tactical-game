@@ -1,12 +1,9 @@
 import { Cell } from "../Cell";
-import { UnitNames, UnitType, StrategiesType } from "../enums";
+import { StrategiesType, UnitNames, UnitType } from "../enums";
 import { NeighborEnemyStrategy } from "../strategies/target/NeighborEnemyStrategy";
-import { SingleDamageStrategy } from "../strategies/action/SingleDamageStrategy";
-import {
-    SingleActionStrategy,
-    HighlightStrategy,
-    MassActionStrategy,
-} from "../strategies/Strategy";
+import { HighlightStrategy, ActionStrategy } from "../strategies/Strategy";
+import { RangeStrategy, SingleTargetStrategy } from "../strategies/Range";
+import { DamageStrategy } from "../strategies/action/DamageStrategy";
 
 export interface UnitProps {
     cell: Cell;
@@ -28,9 +25,9 @@ export class Unit {
     image = "";
     id = Math.random();
 
+    protected rangeStrategy: RangeStrategy = new SingleTargetStrategy();
     protected targetStrategy: HighlightStrategy = new NeighborEnemyStrategy();
-    protected actionStrategy: SingleActionStrategy | MassActionStrategy =
-        new SingleDamageStrategy();
+    protected actionStrategy: ActionStrategy = new DamageStrategy();
 
     constructor(props: UnitProps) {
         this.cell = props.cell;
@@ -47,17 +44,26 @@ export class Unit {
     }
 
     public performAction(targetCell?: Cell): void {
-        if (this.actionStrategy.type === StrategiesType.SINGLE && targetCell) {
-            this.actionStrategy.performAction(this, targetCell);
-            return;
-        }
-        if (this.actionStrategy.type === StrategiesType.MASS) {
-            this.actionStrategy.performAction(this, this.cell.board.cells);
-            return;
+        this.rangeStrategy.performAction(this, this.actionStrategy, targetCell);
+    }
+
+    public takeDamage(damage: number) {
+        this.healthPoints = this.isDefending
+            ? Math.floor(this.healthPoints - damage / 2)
+            : this.healthPoints - damage;
+        if (this.healthPoints <= 0) {
+            this.healthPoints = 0;
+            this.isDead = true;
         }
     }
 
-    public getActionType(): StrategiesType {
-        return this.actionStrategy.type;
+    public heal(amount: number) {
+        this.healthPoints += amount;
+        if (this.healthPoints > this.maxHealthPoints)
+            this.healthPoints = this.maxHealthPoints;
+    }
+
+    public getStrategyType(): StrategiesType {
+        return this.rangeStrategy.returnType();
     }
 }

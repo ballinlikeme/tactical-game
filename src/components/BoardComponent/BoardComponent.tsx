@@ -26,7 +26,7 @@ export default function BoardComponent({ board, setBoard }: BoardProps) {
         if (
             selectedCell &&
             cell.availiable &&
-            selectedCell.unit?.getActionType() === StrategiesType.SINGLE
+            selectedCell.unit?.getStrategyType() === StrategiesType.SINGLE
         ) {
             setTargetCell(cell);
             return;
